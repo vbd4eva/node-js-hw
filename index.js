@@ -1,29 +1,32 @@
+import { listContacts, getContactById, removeContact, addContact } from './contacts.js';
 
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
-import { listContacts, getContactById, removeContact } from './contacts.js';
-// import { contactsPath } from './contacts.js';
-// import contacts from './contacts.js';
+const argv = yargs(hideBin(process.argv)).argv;
 
+// TODO: рефакторить
+function invokeAction({ action, id, name, email, phone }) {
+  switch (action) {
+    case 'list':
+      listContacts()
+      break;
+    
+    case 'get':
+      getContactById(id)
+      break;
 
-// console.log('contactsPath',contactsPath);
+    case 'add':
+      addContact(name, email, phone)
+      break;
 
+    case 'remove':
+      removeContact(id)
+      break;
 
+    default:
+      console.warn('\x1B[31m Unknown action type!');
+  }
+}
 
-// getContactById(2);
-
-// removeContact(8);
-// (async () => {
-//     await removeContact(10);
-//     await removeContact(9);
-//     await removeContact(8);
-//     await removeContact(7);
-//     await removeContact(6);
-//     await removeContact(5);
-//     await removeContact(4);
-//     await removeContact(3);
-//     await removeContact(2);
-//     await removeContact(1);
-// })();
-
-
-// listContacts();
+invokeAction(argv);
